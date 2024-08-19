@@ -7,3 +7,14 @@ insert ignore into authorities values('user','read');
 
 insert ignore into users values('admin','{bcrypt}$2a$12$FaXVz53Z5j5nBav7191M..MTc2M5PICduRoYoVTvSoTh1.M/.FSVC','1');
 insert ignore into authorities values('admin', 'admin');
+
+create table customer (
+	id int not null auto_increment,
+    email varchar(45) not null,
+    password varchar(200) not null,
+    role varchar(45) not null,
+    primary key(id)
+);
+
+insert into customer (email, password, role) values('user@example.com','{noop}Jami@12345','user');
+insert into customer (email, password, role) values('admin@example.com','{bcrypt}$2a$12$FaXVz53Z5j5nBav7191M..MTc2M5PICduRoYoVTvSoTh1.M/.FSVC','admin');
