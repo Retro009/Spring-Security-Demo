@@ -21,12 +21,14 @@ import javax.sql.DataSource;
 public class SecurityConfig {
     @Bean
     SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
-        /*http.authorizeHttpRequests((requests) -> {
+        /*Default Secuity config
+        http.authorizeHttpRequests((requests) -> {
             ((AuthorizeHttpRequestsConfigurer.AuthorizedUrl)requests.anyRequest()).authenticated();
         });*/
-        http.authorizeHttpRequests((request) -> request
+        http.csrf(csrfConfig -> csrfConfig.disable())   //disabling due to add enabling register user through restApi
+                .authorizeHttpRequests((request) -> request
                 .requestMatchers("/myBalance","/myCards","/myAccount","/myLoans").authenticated()
-                .requestMatchers("/notices","/contact","/error").permitAll());
+                .requestMatchers("/notices","/contact","/error","/register").permitAll());
         http.formLogin(Customizer.withDefaults());
         http.httpBasic(Customizer.withDefaults());
         return (SecurityFilterChain)http.build();
@@ -39,7 +41,8 @@ public class SecurityConfig {
         return new InMemoryUserDetailsManager(user,admin);
     }*/
 
-    /*@Bean
+    /* Commented because of the implementation of UserDetailService with custom Table
+    @Bean
     public UserDetailsService userDetailsService(DataSource dataSource){
         return new JdbcUserDetailsManager(dataSource);
     }*/
